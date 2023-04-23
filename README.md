@@ -1,4 +1,4 @@
-# User Manager API Server
+# Cafe Manager API Server
 유저 관리 서버
 
 ## Tech
@@ -10,7 +10,7 @@
 [python] 3.10.8 이상 
  
 ## Installation
-User Manager API Server를 실행하려면 [python] 3.10.8 이상이 필요합니다.
+Cafe Manager API Server를 실행하려면 [python] 3.10.8 이상이 필요합니다.
 
 종속 패키지를 설치합니다.
 
@@ -45,17 +45,17 @@ http://127.0.0.1:8000
 ```
 
 ## Docker
-User Manager API Server는 Docker 컨테이너로 설치하고 배포가 가능합니다.
+Cafe Manager API Server는 Docker 컨테이너로 설치하고 배포가 가능합니다.
 
 기본적으로 이 프로젝트에 적용된 Docker는 포트 80, 443을 노출하고 있습니다.
 빌드 준비가 되면 Dockerfile을 사용하여 이미지를 빌드합니다.
 
 ```sh
 # INTEL 아키텍쳐
-$ docker build -t user_manager .
+$ docker build -t cafe_manager .
 
 # M1 아키텍쳐
-$ docker build -t user_manager --platform=linux/amd64 .
+$ docker build -t cafe_manager --platform=linux/amd64 .
 
 ```
 
@@ -63,7 +63,7 @@ $ docker build -t user_manager --platform=linux/amd64 .
 컨테이너 생성시 컨테이너에 접속할 포트를 호스트 포트와 매핑합니다. 이 예제에서는 호스트포트 8000을 컨테이너 포트 80(또는 Dockerfile에 노출된 포트)로 매핑합니다.
 
 ```sh
-$ docker run -d -p 8000:80 user_manager
+$ docker run -d -p 8000:80 cafe_manager
 ```
 
 컨테이너가 정상적으로 생성된 경우, 사용하는 브라우저에 서버 주소를 입력하여 동작을 확인합니다.
