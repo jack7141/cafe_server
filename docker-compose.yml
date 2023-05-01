@@ -5,11 +5,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: user-manager
+    container_name: cafe-moa
     environment:      
       - RUNNING_ENV=local
       - TZ=Asia/Seoul
     volumes:
     - ./:/webapp/server/
     ports:
-      - "80:80"
+      - "8001:80"

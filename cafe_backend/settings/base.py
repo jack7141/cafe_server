@@ -165,7 +165,7 @@ USE_I18N = True
 USE_TZ = True
 
 ELASTIC_APM = {
-    "SERVICE_NAME": "user_manager",
+    "SERVICE_NAME": "cafe_manager",
     "DEBUG": True,
     "CAPTURE_BODY": "transactions"
 }
