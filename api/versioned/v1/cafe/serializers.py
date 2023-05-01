@@ -24,14 +24,21 @@ class CafeSerializer(serializers.ModelSerializer):
         model = Cafe
         fields = (
             'menu_info', 'thumUrls', 'cafe_id', 'title', 'address', 'road_address',
-            'latitude', 'longitude', 'tel', 'home_page', 'business_hours'
+            'latitude', 'longitude', 'tel', 'home_page', 'business_hours', 'business_hours_start', 'business_hours_end',
         )
 
+
     def to_internal_value(self, data):
-        business_hours = data.pop('business_hours')
-        start_time_str, end_time_str = business_hours.split('~')
-        start_time = datetime.datetime.strptime(start_time_str.strip(), '%Y%m%d%H%M')
-        end_time = datetime.datetime.strptime(end_time_str.strip(), '%Y%m%d%H%M')
+        business_hours = data.pop('business_hours', None)
+        if business_hours:
+            start_time_str, end_time_str = business_hours.split('~')
+            start_time = datetime.datetime.strptime(start_time_str.strip()[8:], '%H%M').time()
+            end_time = datetime.datetime.strptime(end_time_str.strip()[8:], '%H%M').time()
+            data['business_hours_start'] = start_time
+            data['business_hours_end'] = end_time
+        else:
+            start_time = None
+            end_time = None
         data['business_hours_start'] = start_time
         data['business_hours_end'] = end_time
         data = super().to_internal_value(data=data)
@@ -58,13 +65,21 @@ class CafeSerializer(serializers.ModelSerializer):
                 menu.delete()
 
         for menu_info in incoming_menu_infos:
-            name, price = menu_info.rsplit(' ', 1)[0], menu_info.rsplit(' ', 1)[1]
+            # FIXME: 아이스초코 변동가격(업주문의)
+            name_price = menu_info.rsplit(' ', 1)
+            name = name_price[0]
+            price = name_price[1]
+            try:
+                price = int(price.replace(',', ''))
+            except (ValueError, TypeError):
+                price = 0
+
             if name in existing_menu_names:
                 menu = Menu.objects.get(cafe=cafe, name=name)
-                menu.price = int(price.replace(',', ''))
+                menu.price = price
                 menu.save()
             else:
-                Menu.objects.create(cafe=cafe, name=name, price=int(price.replace(',', '')))
+                Menu.objects.create(cafe=cafe, name=name, price=price)
 
         # Thumbnail 모델 인스턴스를 생성하거나 업데이트합니다.
         existing_thumbnail_urls = [thumbnail.url for thumbnail in cafe.thumbnail_set.all()]

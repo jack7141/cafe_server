@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_admin_inline_paginator',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -93,7 +94,7 @@ ROOT_URLCONF = 'cafe_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -181,7 +182,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, '../static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-APPEND_SLASH = True
+
 
 EXPIRING_TOKEN_LIFESPAN = 60 * 30
 
@@ -270,3 +271,5 @@ SWAGGER_SETTINGS = {
     'REFETCH_SCHEMA_WITH_AUTH': True,
     'REFETCH_SCHEMA_ON_LOGOUT': True
 }
+
+APPEND_SLASH = True

@@ -6,6 +6,7 @@ coreapi==2.3.3
 coreschema==0.0.4
 cryptography==39.0.1
 Django==4.1.7
+django-admin-inline-paginator==0.4.0
 django-axes==5.40.1
 django-cors-headers==3.14.0
 django-elasticsearch-dsl==7.3

@@ -27,7 +27,7 @@ for path, dirs, files, in os.walk(folder):
 
 if settings.DEBUG:
     for version, patterns in version_map_dict.items():
-        title = 'User Manager API'
+        title = 'Cafe Manager API'
         base_url = '/api'
         sv = get_schema_view(
             openapi.Info(

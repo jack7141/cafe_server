@@ -11,8 +11,8 @@ class Cafe(Timestampable, models.Model):
     longitude = models.CharField(max_length=255)
     tel = models.CharField(max_length=255)
     home_page = models.URLField(max_length=255, blank=True)
-    business_hours_start = models.DateTimeField(blank=True, null=True)
-    business_hours_end = models.DateTimeField(blank=True, null=True)
+    business_hours_start = models.TimeField(blank=True, null=True)
+    business_hours_end = models.TimeField(blank=True, null=True)
 
     def __str__(self):
         return self.title
