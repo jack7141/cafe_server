@@ -152,6 +152,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
+    'DEFAULT_PAGINATION_CLASS': 'common.pagenator.StandardPagination',
 }
 
 # Internationalization
@@ -213,7 +214,7 @@ LOGGING = {
         'logstash': {
             'level': 'DEBUG',
             'class': 'logstash.TCPLogstashHandler',
-            'host': 'localhost',
+            'host': '172.30.1.1',
             'port': 50000,
             'version': 1,
             'message_type': 'django',
