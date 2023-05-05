@@ -1,26 +1,18 @@
-class AppLabelBaseMappingRouter(object):
-    """
-    A router to control all database operations on models in the
-    auth application.
-    """
+import logging
 
-    app_mapping = {}
+logger = logging.getLogger(__name__)
 
+class MasterSlaveRouter:
     def db_for_read(self, model, **hints):
-        return self.app_mapping.get(model._meta.app_label, None)
+        logger.info(f"Read operation for model {model.__name__} is routed to 'slave' database")
+        return 'slave'
 
     def db_for_write(self, model, **hints):
-        return self.app_mapping.get(model._meta.app_label, None)
+        logger.info(f"Write operation for model {model.__name__} is routed to 'default' database")
+        return 'default'
 
     def allow_relation(self, obj1, obj2, **hints):
-        if self.app_mapping.get(obj1._meta.app_label, None) == self.app_mapping.get(
-            obj2._meta.app_label, None
-        ):
-            return True
-        return None
+        return True
 
-    def add_mapping(self, app_label, app):
-        self.app_mapping.update(dict([(app_label, app)]))
-
-
-router = AppLabelBaseMappingRouter()
+    def allow_migrate(self, db, app_label, model_name=None, **hints):
+        return db == 'default'

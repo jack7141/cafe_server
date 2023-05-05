@@ -241,7 +241,11 @@ LOGGING = {
             'handlers': ['django.server', 'console'],
             'level': 'DEBUG',
             'propagate': False,
-        }
+        },
+        'common.db_routers': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
     }
 }
 
@@ -273,3 +277,4 @@ SWAGGER_SETTINGS = {
 }
 
 APPEND_SLASH = True
+DATABASE_ROUTERS = ("common.db_routers.MasterSlaveRouter",)

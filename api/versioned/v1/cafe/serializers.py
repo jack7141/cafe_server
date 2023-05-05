@@ -91,12 +91,17 @@ class CafeSerializer(serializers.ModelSerializer):
             except (ValueError, TypeError):
                 price = 0
 
+            # 한 카페에서 같은 메뉴의 이름이 중복되는 경우가 있음
             if name in existing_menu_names:
-                menu = Menu.objects.get(cafe=cafe, name=name)
-                menu.price = price
-                menu.save()
+                menus_with_same_name = Menu.objects.filter(cafe=cafe, name=name)
+                if menus_with_same_name.exists():
+                    menu = menus_with_same_name.first()
+                    menu.price = price
+                    menu.save()
             else:
                 Menu.objects.create(cafe=cafe, name=name, price=price)
+
+
 
         # Thumbnail 모델 인스턴스를 생성하거나 업데이트합니다.
         existing_thumbnail_urls = [thumbnail.url for thumbnail in cafe.thumbnail_set.all()]
