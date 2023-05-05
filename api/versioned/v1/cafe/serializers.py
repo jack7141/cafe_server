@@ -6,7 +6,7 @@ from api.bases.cafe.models import Cafe, Thumbnail, Menu
 class ThumbnailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Thumbnail
-        fields = '__all__'
+        fields = ('url', )
 
 
 class MenuSerializer(serializers.ModelSerializer):
@@ -15,17 +15,26 @@ class MenuSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class PointSerializer(serializers.Serializer):
+    latitude = serializers.FloatField(help_text="위도")
+    longitude = serializers.FloatField(help_text="경도")
+
+
+
 class CafeSerializer(serializers.ModelSerializer):
     menu_info = serializers.CharField(write_only=True)
     thumUrls = serializers.ListField(child=serializers.URLField(), write_only=True)
     business_hours = serializers.CharField(write_only=True, required=False)
+    thumbnails = ThumbnailSerializer(many=True, read_only=True)
 
     class Meta:
         model = Cafe
         fields = (
             'menu_info', 'thumUrls', 'cafe_id', 'title', 'address', 'road_address',
             'latitude', 'longitude', 'tel', 'home_page', 'business_hours', 'business_hours_start', 'business_hours_end',
+            'thumbnails',
         )
+
 
     def to_internal_value(self, data):
         business_hours = data.pop('business_hours', None)
