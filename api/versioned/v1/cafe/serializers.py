@@ -27,11 +27,28 @@ class CafeSerializer(serializers.ModelSerializer):
             'latitude', 'longitude', 'tel', 'home_page', 'business_hours', 'business_hours_start', 'business_hours_end',
         )
 
-
     def to_internal_value(self, data):
         business_hours = data.pop('business_hours', None)
         if business_hours:
             start_time_str, end_time_str = business_hours.split('~')
+
+            if end_time_str[-4:] >= '2400':
+                # Convert a date and time to a datetime.datetime object.
+                end_time_dt = datetime.datetime.strptime(end_time_str[:-4], '%Y%m%d')
+
+                # Calculate the overtime value.
+                exceeded_hours = int(end_time_str[-4:-2]) // 24
+                remaining_hours = int(end_time_str[-4:-2]) % 24
+
+                # Add days by the amount of time exceeded.
+                end_time_dt += datetime.timedelta(days=exceeded_hours)
+
+                # Add the remaining time value.
+                end_time_dt += datetime.timedelta(hours=remaining_hours, minutes=int(end_time_str[-2:]))
+
+                # Update end_time_str with the corrected time value.
+                end_time_str = end_time_dt.strftime('%Y%m%d%H%M')
+
             start_time = datetime.datetime.strptime(start_time_str.strip()[8:], '%H%M').time()
             end_time = datetime.datetime.strptime(end_time_str.strip()[8:], '%H%M').time()
             data['business_hours_start'] = start_time
