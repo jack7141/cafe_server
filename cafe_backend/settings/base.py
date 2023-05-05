@@ -168,7 +168,8 @@ USE_TZ = True
 ELASTIC_APM = {
     "SERVICE_NAME": "cafe_manager",
     "DEBUG": True,
-    "CAPTURE_BODY": "transactions"
+    "CAPTURE_BODY": "transactions",
+    'SERVER_URL': 'localhost',
 }
 
 # Static files (CSS, JavaScript, Images)
@@ -209,6 +210,16 @@ LOGGING = {
         }
     },
     'handlers': {
+        'logstash': {
+            'level': 'DEBUG',
+            'class': 'logstash.TCPLogstashHandler',
+            'host': '172.30.1.1',
+            'port': 50000,
+            'version': 1,
+            'message_type': 'django',
+            'fqdn': True,
+            'tags': ['django'],
+        },
         'django.request': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
@@ -233,18 +244,19 @@ LOGGING = {
     },
     'loggers': {
         'django.request': {
-            'handlers': ['django.request', 'console'],
+            'handlers': ['django.request', 'console', 'logstash'],
             'level': 'DEBUG',
             'propagate': False,
         },
         'django.server': {
-            'handlers': ['django.server', 'console'],
+            'handlers': ['django.server', 'console', 'logstash'],
             'level': 'DEBUG',
             'propagate': False,
         },
         'common.db_routers': {
-            'handlers': ['console'],
-            'level': 'INFO',
+            'handlers': ['console', 'logstash'],
+            'level': 'DEBUG',
+            'propagate': False,
         },
     }
 }
