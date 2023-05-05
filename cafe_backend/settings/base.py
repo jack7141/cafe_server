@@ -169,7 +169,7 @@ ELASTIC_APM = {
     "SERVICE_NAME": "cafe_manager",
     "DEBUG": True,
     "CAPTURE_BODY": "transactions",
-    'SERVER_URL': 'localhost',
+    'SERVER_URL': 'http://172.30.1.1:8200',
 }
 
 # Static files (CSS, JavaScript, Images)
@@ -213,7 +213,7 @@ LOGGING = {
         'logstash': {
             'level': 'DEBUG',
             'class': 'logstash.TCPLogstashHandler',
-            'host': '172.30.1.1',
+            'host': 'localhost',
             'port': 50000,
             'version': 1,
             'message_type': 'django',
