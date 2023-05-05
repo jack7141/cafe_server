@@ -110,10 +110,8 @@ class CafeSerializer(serializers.ModelSerializer):
             else:
                 Menu.objects.create(cafe=cafe, name=name, price=price)
 
-
-
         # Thumbnail 모델 인스턴스를 생성하거나 업데이트합니다.
-        existing_thumbnail_urls = [thumbnail.url for thumbnail in cafe.thumbnail_set.all()]
+        existing_thumbnail_urls = [thumbnail.url for thumbnail in cafe.thumbnails.all()]
         for url in thum_urls:
             if url not in existing_thumbnail_urls:
                 Thumbnail.objects.create(cafe=cafe, url=url)
