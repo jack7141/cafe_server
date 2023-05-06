@@ -6,7 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: cafe-moa
-    environment:      
+    network_mode: host
+    environment:
       - RUNNING_ENV=local
       - TZ=Asia/Seoul
     volumes:
