@@ -6,11 +6,11 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: cafe-moa
-    network_mode: host
+    network_mode: bridge
     environment:
       - RUNNING_ENV=local
       - TZ=Asia/Seoul
     volumes:
     - ./:/webapp/server/
     ports:
-      - "8001:80"
+      - "172.22.0.1:8001:80"
