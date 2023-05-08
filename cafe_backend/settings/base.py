@@ -111,7 +111,11 @@ WSGI_APPLICATION = 'cafe_backend.wsgi.application'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["https://172.22.0.1:3000", "https://www.cafe-moa.com"]
+CORS_ALLOWED_ORIGINS = [
+    "https://172.22.0.1:3000",
+    "https://www.cafe-moa.com",
+    "http://172.22.0.1:3000"
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
